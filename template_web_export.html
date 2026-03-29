@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>porta do infinito online</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/fingerprintjs2/latest/fingerprint2.min.js"></script>
+        <script>
+            const getBrowserFingerprint = async (godotCallback) => {
+                const fp = new Fingerprint2();
+                fp.get((result, components) => {
+                    // Call the Godot callback with the fingerprint string
+                    godotCallback([result]);
+                    console.log('[template script] setting fpid: ', result);
+                    window.fpid = result; // Store the fingerprint in a global variable for debugging
+                });
+            };
+            window.getBrowserFingerprint = getBrowserFingerprint;
+            getBrowserFingerprint(() => {}); // Call it once to initialize the fingerprinting library
+        </script>
+        <canvas id="canvas"></canvas>
+        <script src="$GODOT_URL"></script>
+        <script>
+            var engine = new Engine($GODOT_CONFIG);
+            engine.startGame();
+        </script>
+    </body>
+</html>
