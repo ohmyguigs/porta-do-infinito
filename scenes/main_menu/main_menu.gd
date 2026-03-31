@@ -1,3 +1,4 @@
+class_name MainMenu
 extends Control
 
 @onready var Button_start: Button = %Button_start
@@ -5,18 +6,27 @@ extends Control
 @onready var LabelDeviceId: Label = %Label_device_id
 @onready var LabelStatus: Label = %Label_status
 @onready var SphereStatus: MeshInstance2D = %sphere_server_status
-var player_id: String = "dev_player_1337"
+var device_id: String = "dev_player_1337"
 var COLOR_ONLINE: Color = Color(0.016, 0.89, 0.047)
 var COLOR_OFFLINE: Color = Color(0.737, 0.0, 0.0, 1.0)
 
+var local_gamesave: GameData = null
+
 func _ready() -> void:
 	set_version_label()
+	if OS.has_feature("web"):
+		var window = JavaScriptBridge.get_interface("window")
+		device_id = window.fpid
+		print("[main_menu] js bridge fpid: %s" % device_id)
+	local_gamesave = GlobalGameData.load_gamesave(device_id)
+	print("[main_menu] gamesave: %s" % str(local_gamesave))
+	if local_gamesave != null:
+		device_id = local_gamesave.device_id
 	set_device_id_label()
 	# check server connection
 	set_offline_label() # mock offline
 	# if load load last global position
-	# else new save and go to player edit 
-	
+	# else new save
 
 func set_online_label() -> void:
 	SphereStatus.modulate = COLOR_ONLINE
@@ -31,12 +41,11 @@ func set_version_label() -> void:
 	LabelVersion.text = "versão: %s" % version
 
 func set_device_id_label() -> void:
-	if OS.has_feature("web"):
-		var window = JavaScriptBridge.get_interface("window")
-		player_id = window.fpid
-		print("[main_menu] js bridge fpid: %s" % player_id)
-		if typeof(player_id) == TYPE_STRING:
-			LabelDeviceId.text = "device_id: %s" % player_id
-			# pls also save
-	else:
-		LabelDeviceId.text = "device_id: %s" % player_id
+	if local_gamesave != null:
+		LabelDeviceId.text = "player_name: %s" % local_gamesave.display_name
+	elif typeof(device_id) == TYPE_STRING:
+			LabelDeviceId.text = "device_id: %s" % device_id
+
+func _on_Button_start_pressed() -> void:
+	print("start button pressed")
+	get_tree().change_scene_to_file("res://scenes/player_edit/player_edit.tscn")
