@@ -7,8 +7,7 @@ extends Control
 @onready var LabelStatus: Label = %Label_status
 @onready var SphereStatus: MeshInstance2D = %sphere_server_status
 var device_id: String = "dev_player_1337"
-var COLOR_ONLINE: Color = Color(0.016, 0.89, 0.047)
-var COLOR_OFFLINE: Color = Color(0.737, 0.0, 0.0, 1.0)
+
 
 var local_gamesave: GameData = null
 
@@ -29,11 +28,11 @@ func _ready() -> void:
 	# else new save
 
 func set_online_label() -> void:
-	SphereStatus.modulate = COLOR_ONLINE
+	SphereStatus.modulate = Consts.COLOR_ONLINE
 	LabelStatus.text = LabelStatus.text.replace("offline","online")
 
 func set_offline_label() -> void:
-	SphereStatus.modulate = COLOR_OFFLINE
+	SphereStatus.modulate = Consts.COLOR_OFFLINE
 	LabelStatus.text = LabelStatus.text.replace("online","offline")
 	
 func set_version_label() -> void:

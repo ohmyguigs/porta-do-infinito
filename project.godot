@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Porta do infinito"
-config/version="v0.0.2"
+config/version="v0.0.3"
 run/main_scene="uid://dyseoawrycwro"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalGameData="*uid://b62lpblyt4p58"
+Consts="*uid://6uoukn1pprrd"
 
 [display]
 
