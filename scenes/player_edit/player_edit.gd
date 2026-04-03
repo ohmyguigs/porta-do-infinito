@@ -150,7 +150,7 @@ func _on_button_save_button_up() -> void:
 		local_gamesave.display_name,
 	])
 	GlobalGameData.write_gamesave(local_gamesave)
-	#get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
 
 func _on_texture_button_guild_purple_button_up() -> void:
 	print("[player_edit] clicked guild purple!")
