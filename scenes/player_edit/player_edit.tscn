@@ -6,8 +6,16 @@
 [ext_resource type="TileSet" uid="uid://bqjwo8864s3h" path="res://assets/tiny_ui_tileset.tres" id="4_8ijcq"]
 [ext_resource type="TileSet" uid="uid://fwbv0vritl3y" path="res://assets/animated_chars_tileset.tres" id="5_evy71"]
 [ext_resource type="Shader" uid="uid://bwi5gh66jfblx" path="res://shadders/color_swap.gdshader" id="5_txtqp"]
+[ext_resource type="Texture2D" uid="uid://b47x2nutnc572" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_21.png" id="7_fyiqs"]
 [ext_resource type="Texture2D" uid="uid://ctf8w6vfse6eh" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Buttons/SmallBlueSquareButton_Regular.png" id="7_t1jtu"]
+[ext_resource type="Texture2D" uid="uid://bkybi3mmggxdl" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_01.png" id="8_e5vlx"]
 [ext_resource type="Texture2D" uid="uid://d4ncs33blahrc" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Buttons/SmallBlueSquareButton_Pressed.png" id="8_h4uy2"]
+[ext_resource type="Texture2D" uid="uid://h0kqf526v05d" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_22.png" id="9_vlykf"]
+[ext_resource type="Texture2D" uid="uid://ci0p3yqbjt0s7" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_02.png" id="10_l8372"]
+[ext_resource type="Texture2D" uid="uid://bfjcfck08204k" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_23.png" id="11_sve0x"]
+[ext_resource type="Texture2D" uid="uid://78fkqb2spgxx" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_03.png" id="12_4r6e2"]
+[ext_resource type="Texture2D" uid="uid://17sefv22rwp8" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_24.png" id="13_1s0uw"]
+[ext_resource type="Texture2D" uid="uid://dsistsphgdi5i" path="res://assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Human Avatars/Avatars_04.png" id="14_y3b0d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wu84c"]
 shader = ExtResource("2_6166c")
@@ -176,7 +184,7 @@ offset_right = 220.0
 offset_bottom = 34.0
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 24
-text = "Escolha o time:"
+text = "Guilda:"
 
 [node name="Control_guilds_options" type="Control" parent="AspectRatioContainer/BannerContentContainer" unique_id=1935378684]
 layout_mode = 2
@@ -209,14 +217,15 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TextureButton_guild_purple" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control5" unique_id=1850055220]
+[node name="Button_guild_purple" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control5" unique_id=1850055220]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -12.5
-offset_right = 15.0
+offset_right = 25.0
 offset_bottom = 12.5
 grow_vertical = 2
 flat = true
@@ -227,7 +236,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TextureButton_guild_black" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control6" unique_id=957480666]
+[node name="Button_guild_black" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control6" unique_id=957480666]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
 anchors_preset = 4
@@ -245,7 +255,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TextureButton_guild_blue" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control7" unique_id=1988506262]
+[node name="Button_guild_blue" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control7" unique_id=1988506262]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
 anchors_preset = 4
@@ -263,7 +274,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TextureButton_guild_red" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control8" unique_id=1759506927]
+[node name="Button_guild_red" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control8" unique_id=1759506927]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
 anchors_preset = 4
@@ -281,7 +293,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TextureButton_guild_yellow" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control9" unique_id=814888042]
+[node name="Button_guild_yellow" type="Button" parent="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control9" unique_id=814888042]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
 anchors_preset = 4
@@ -292,6 +305,139 @@ offset_right = 15.0
 offset_bottom = 12.5
 grow_vertical = 2
 flat = true
+
+[node name="Control_role_title" type="Control" parent="AspectRatioContainer/BannerContentContainer" unique_id=895631455]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label_role_title" type="Label" parent="AspectRatioContainer/BannerContentContainer/Control_role_title" unique_id=1637774619]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 179.0
+offset_bottom = 114.0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "Classe:"
+
+[node name="Control_role_options" type="Control" parent="AspectRatioContainer/BannerContentContainer" unique_id=1307260497]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control_warrior" type="Control" parent="AspectRatioContainer/BannerContentContainer/Control_role_options" unique_id=1687122466]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -86.0
+offset_right = -38.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureButton_warrior" type="TextureButton" parent="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_warrior" unique_id=114567575]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("7_fyiqs")
+texture_pressed = ExtResource("8_e5vlx")
+texture_hover = ExtResource("8_e5vlx")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Control_lancer" type="Control" parent="AspectRatioContainer/BannerContentContainer/Control_role_options" unique_id=921514806]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -86.0
+offset_right = 37.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureButton_lancer" type="TextureButton" parent="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_lancer" unique_id=267300235]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("9_vlykf")
+texture_pressed = ExtResource("10_l8372")
+texture_hover = ExtResource("10_l8372")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Control_archer" type="Control" parent="AspectRatioContainer/BannerContentContainer/Control_role_options" unique_id=1795916950]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 28.0
+offset_top = -86.0
+offset_right = 108.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureButton_archer" type="TextureButton" parent="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_archer" unique_id=1432079303]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("11_sve0x")
+texture_pressed = ExtResource("12_4r6e2")
+texture_hover = ExtResource("12_4r6e2")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Control_monk" type="Control" parent="AspectRatioContainer/BannerContentContainer/Control_role_options" unique_id=1615725400]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 98.0
+offset_top = -86.0
+offset_right = 178.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureButton_monk" type="TextureButton" parent="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_monk" unique_id=611350099]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("13_1s0uw")
+texture_pressed = ExtResource("14_y3b0d")
+texture_hover = ExtResource("14_y3b0d")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="WoodBoxContainer" type="MarginContainer" parent="AspectRatioContainer" unique_id=2113326654]
 layout_mode = 2
@@ -333,19 +479,19 @@ max_length = 20
 drag_and_drop_selection_enabled = false
 caret_blink = true
 
-[node name="Control" type="MarginContainer" parent="AspectRatioContainer" unique_id=2089677586]
+[node name="ControlSaveButton" type="MarginContainer" parent="AspectRatioContainer" unique_id=2089677586]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_right = 97
 theme_override_constants/margin_bottom = 87
 
-[node name="Control" type="Control" parent="AspectRatioContainer/Control" unique_id=286451582]
+[node name="Control" type="Control" parent="AspectRatioContainer/ControlSaveButton" unique_id=286451582]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 mouse_filter = 2
 
-[node name="Button_save" type="TextureButton" parent="AspectRatioContainer/Control/Control" unique_id=706941836]
+[node name="Button_save" type="TextureButton" parent="AspectRatioContainer/ControlSaveButton/Control" unique_id=706941836]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -356,7 +502,7 @@ texture_normal = ExtResource("7_t1jtu")
 texture_pressed = ExtResource("8_h4uy2")
 texture_hover = ExtResource("7_t1jtu")
 
-[node name="Label" type="Label" parent="AspectRatioContainer/Control/Control" unique_id=1111471029]
+[node name="Label" type="Label" parent="AspectRatioContainer/ControlSaveButton/Control" unique_id=1111471029]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -373,11 +519,11 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 20
 text = "Salvar"
 
-[node name="Control2" type="Control" parent="AspectRatioContainer" unique_id=1172449799]
+[node name="ControlGameDataName" type="Control" parent="AspectRatioContainer" unique_id=1172449799]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label_localgamedata" type="Label" parent="AspectRatioContainer/Control2" unique_id=516204931]
+[node name="Label_localgamedata" type="Label" parent="AspectRatioContainer/ControlGameDataName" unique_id=516204931]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = -27.0
@@ -389,10 +535,14 @@ theme_override_font_sizes/font_size = 24
 text = "red warrior"
 horizontal_alignment = 1
 
-[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control5/TextureButton_guild_purple" to="." method="_on_texture_button_guild_purple_button_up"]
-[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control6/TextureButton_guild_black" to="." method="_on_texture_button_guild_black_button_up"]
-[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control7/TextureButton_guild_blue" to="." method="_on_texture_button_guild_blue_button_up"]
-[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control8/TextureButton_guild_red" to="." method="_on_texture_button_guild_red_button_up"]
-[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control9/TextureButton_guild_yellow" to="." method="_on_texture_button_guild_yellow_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control5/Button_guild_purple" to="." method="_on_texture_button_guild_purple_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control6/Button_guild_black" to="." method="_on_texture_button_guild_black_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control7/Button_guild_blue" to="." method="_on_texture_button_guild_blue_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control8/Button_guild_red" to="." method="_on_texture_button_guild_red_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_guilds_options/HBoxContainer/Control9/Button_guild_yellow" to="." method="_on_texture_button_guild_yellow_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_warrior/TextureButton_warrior" to="." method="_on_texture_button_warrior_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_lancer/TextureButton_lancer" to="." method="_on_texture_button_lancer_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_archer/TextureButton_archer" to="." method="_on_texture_button_archer_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/BannerContentContainer/Control_role_options/Control_monk/TextureButton_monk" to="." method="_on_texture_button_monk_button_up"]
 [connection signal="text_changed" from="AspectRatioContainer/WoodBoxContainer/Control/LineEdit_name" to="." method="_on_line_edit_name_text_changed"]
-[connection signal="button_up" from="AspectRatioContainer/Control/Control/Button_save" to="." method="_on_button_save_button_up"]
+[connection signal="button_up" from="AspectRatioContainer/ControlSaveButton/Control/Button_save" to="." method="_on_button_save_button_up"]

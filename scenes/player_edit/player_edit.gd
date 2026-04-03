@@ -11,8 +11,14 @@ var selected_guild: String = "red"
 # Controls
 @onready var LineEdit_name: LineEdit = %LineEdit_name
 @onready var Label_gamedata: Label = %Label_localgamedata
-
-# ROLE TILE MAP LAYERS
+var Button_guild_name_pattern: String = "Button_guild_"
+@onready var Button_guild_purple: Button = %Button_guild_purple
+@onready var Button_guild_black: Button = %Button_guild_black
+@onready var Button_guild_blue: Button = %Button_guild_blue
+@onready var Button_guild_red: Button = %Button_guild_red
+@onready var Button_guild_yellow: Button = %Button_guild_yellow
+var TilpemapLayer_role_name_pattern: String = "_TILEMAPLAYER"
+@onready var PAWN_TILEMAPLAYER: TileMapLayer = %idle_warrior
 @onready var WARRIOR_TILEMAPLAYER: TileMapLayer = %idle_warrior
 @onready var LANCER_TILEMAPLAYER: TileMapLayer = %idle_lancer
 @onready var ARCHER_TILEMAPLAYER: TileMapLayer = %idle_archer
@@ -52,37 +58,74 @@ func _ready() -> void:
 		display_name = local_gamesave.display_name
 		selected_guild = local_gamesave.guild
 		selected_role = local_gamesave.role
-		handle_guild_select(local_gamesave.guild, true)
+		handle_role_select(local_gamesave.role, true)
 		LineEdit_name.text = local_gamesave.display_name
 	# END - HANDLE GAME DATA LOAD
 
-func handle_guild_select(new_guild: String, fisrtRun: bool = false) -> void:
-	if new_guild == selected_guild && !fisrtRun:
+func handle_guild_select(new_guild: String, skipBypass: bool = false) -> void:
+	if new_guild == selected_guild && !skipBypass:
 		print("[player_edit] skiping guild select, %s is already selected!" % selected_guild)
 		return
-	var tilemaplayer_name = selected_role.to_upper() + '_TILEMAPLAYER'
+
+	# Ajusta cores da tile map layer
+	var tilemaplayer_name: String = selected_role.to_upper() + '_TILEMAPLAYER'
 	print("[player_edit] handle guild select, tilemaplayer name: %s" % tilemaplayer_name)
-	var tilemaplayer = get(tilemaplayer_name)
-	var target1_key = selected_guild.to_upper() + '_SHADDOW'
+	var tilemaplayer: TileMapLayer = get(tilemaplayer_name)
+	
+	var target1_key: String = selected_guild.to_upper() + '_SHADDOW'
 	print("[player_edit] target1 name: %s" % target1_key)
-	var target1 = GuildColorSwapDict[target1_key]
-	var target2_key = selected_guild.to_upper() + '_LIGHT'
+	var target1: Color = GuildColorSwapDict[target1_key]
+
+	var target2_key: String = selected_guild.to_upper() + '_LIGHT'
 	print("[player_edit] target2 name: %s" % target2_key)
-	var target2 = GuildColorSwapDict[target2_key]
-	# transforma tudo pra vermelho antes de trocar pra cor destino
-	var transition1 = GuildColorSwapDict["RED_SHADDOW"]
-	var transition2 = GuildColorSwapDict["RED_LIGHT"]
-	var replacement1_key = new_guild.to_upper() + '_SHADDOW'
+	var target2: Color = GuildColorSwapDict[target2_key]
+
+	var replacement1_key: String = new_guild.to_upper() + '_SHADDOW'
 	print("[player_edit] replacement1 name: %s" % replacement1_key)
-	var replacement1 = GuildColorSwapDict[replacement1_key]
-	var replacement2_key = new_guild.to_upper() + '_LIGHT'
+	var replacement1: Color = GuildColorSwapDict[replacement1_key]
+
+	var replacement2_key: String = new_guild.to_upper() + '_LIGHT'
 	print("[player_edit] replacement2 name: %s" % replacement2_key)
-	var replacement2 = GuildColorSwapDict[replacement2_key]
+	var replacement2: Color = GuildColorSwapDict[replacement2_key]
+	
+	# transforma tudo pra vermelho antes de trocar pra cor destino
+	# essa logica pode estar dentro do shadder para simplificar aqui
+	var transition1: Color = GuildColorSwapDict["RED_SHADDOW"]
+	var transition2: Color = GuildColorSwapDict["RED_LIGHT"]
 	swap_colors(tilemaplayer, target1, target2, transition1, transition2)
 	swap_colors(tilemaplayer, transition1, transition2, replacement1, replacement2)
+
+	# Ajusta controles
 	Label_gamedata.text = new_guild + " " + selected_role
+	# desmarca todos botoes de guilda
+	for _guild in Consts.GUILDS:
+		var _Button_guild_name: String = Button_guild_name_pattern + _guild
+		var _Button_guild: Button = get(_Button_guild_name)
+		_Button_guild.text = ""
+	# marca o botao selecionado
+	var Button_guild_name: String = Button_guild_name_pattern + new_guild
+	var Button_guild: Button = get(Button_guild_name)
+	Button_guild.text = "*"
 	selected_guild = new_guild
 
+func handle_role_select(new_role: String, skipBypass: bool = false):
+	if new_role == selected_role && !skipBypass:
+		print("[player_edit] skiping role select, %s is already selected!" % selected_role)
+		return
+	# esconde todos os tilemaps de roles
+	for _role in Consts.ROLES:
+		var _target_tilemap_name: String = _role.to_upper() + TilpemapLayer_role_name_pattern
+		var _target_tilemap: TileMapLayer = get(_target_tilemap_name)
+		_target_tilemap.visible = false
+
+	# torna visivel apenas o selecionado
+	var target_tilemap_name: String = new_role.to_upper() + TilpemapLayer_role_name_pattern
+	var target_tilemap: TileMapLayer = get(target_tilemap_name)
+	target_tilemap.visible = true
+
+	# trigga configuração do shadder swap_color
+	selected_role = new_role
+	handle_guild_select(selected_guild, true)
 
 func swap_colors(_tilemaplayer: TileMapLayer, target1: Color, target2: Color, replacement1: Color, replacement2: Color):
 	const tolerance: float = 0.1
@@ -97,10 +140,15 @@ func _on_line_edit_name_text_changed(typed_value: String) -> void:
 	display_name = typed_value
 
 func _on_button_save_button_up() -> void:
-	print("[player_edit] saving name: %s" % str(display_name))
 	local_gamesave.display_name = display_name
 	local_gamesave.guild = selected_guild
 	local_gamesave.role = selected_role
+	print("[player_edit] gamesave: { guild: %s, role: %s, device_id: %s, display_name: %s }" % [
+		local_gamesave.guild,
+		local_gamesave.role,
+		local_gamesave.device_id,
+		local_gamesave.display_name,
+	])
 	GlobalGameData.write_gamesave(local_gamesave)
 	#get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
 
@@ -123,3 +171,15 @@ func _on_texture_button_guild_red_button_up() -> void:
 func _on_texture_button_guild_yellow_button_up() -> void:
 	print("[player_edit] clicked guild yellow!")
 	handle_guild_select("yellow")
+
+func _on_texture_button_warrior_button_up() -> void:
+	handle_role_select("warrior")
+
+func _on_texture_button_lancer_button_up() -> void:
+	handle_role_select("lancer")
+
+func _on_texture_button_archer_button_up() -> void:
+	handle_role_select("archer")
+
+func _on_texture_button_monk_button_up() -> void:
+	handle_role_select("monk")
