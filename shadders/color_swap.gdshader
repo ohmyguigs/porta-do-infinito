@@ -27,4 +27,5 @@ void fragment() {
 	} else {
         COLOR = current_pixel;
     }
+	
 }

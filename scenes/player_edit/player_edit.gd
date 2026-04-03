@@ -8,6 +8,10 @@ var display_name: String = ""
 var selected_role: String = "warrior"
 var selected_guild: String = "red"
 
+# Controls
+@onready var LineEdit_name: LineEdit = %LineEdit_name
+@onready var Label_gamedata: Label = %Label_localgamedata
+
 # ROLE TILE MAP LAYERS
 @onready var WARRIOR_TILEMAPLAYER: TileMapLayer = %idle_warrior
 @onready var LANCER_TILEMAPLAYER: TileMapLayer = %idle_lancer
@@ -45,22 +49,38 @@ func _ready() -> void:
 	])
 	if local_gamesave != null:
 		device_id = local_gamesave.device_id
+		display_name = local_gamesave.display_name
 		selected_guild = local_gamesave.guild
 		selected_role = local_gamesave.role
+		handle_guild_select(local_gamesave.guild, true)
+		LineEdit_name.text = local_gamesave.display_name
 	# END - HANDLE GAME DATA LOAD
 
-func handle_guild_select(new_guild: String) -> void:
-	if new_guild == selected_guild:
+func handle_guild_select(new_guild: String, fisrtRun: bool = false) -> void:
+	if new_guild == selected_guild && !fisrtRun:
 		print("[player_edit] skiping guild select, %s is already selected!" % selected_guild)
 		return
 	var tilemaplayer_name = selected_role.to_upper() + '_TILEMAPLAYER'
 	print("[player_edit] handle guild select, tilemaplayer name: %s" % tilemaplayer_name)
 	var tilemaplayer = get(tilemaplayer_name)
-	var target1 = GuildColorSwapDict[selected_guild.to_upper() + '_SHADDOW']
-	var target2 = GuildColorSwapDict[selected_guild.to_upper() + '_LIGHT']
-	var replacement1 = GuildColorSwapDict[new_guild.to_upper() + '_SHADDOW']
-	var replacement2 = GuildColorSwapDict[new_guild.to_upper() + '_LIGHT']
-	swap_colors(tilemaplayer, target1, target2, replacement1, replacement2)
+	var target1_key = selected_guild.to_upper() + '_SHADDOW'
+	print("[player_edit] target1 name: %s" % target1_key)
+	var target1 = GuildColorSwapDict[target1_key]
+	var target2_key = selected_guild.to_upper() + '_LIGHT'
+	print("[player_edit] target2 name: %s" % target2_key)
+	var target2 = GuildColorSwapDict[target2_key]
+	# transforma tudo pra vermelho antes de trocar pra cor destino
+	var transition1 = GuildColorSwapDict["RED_SHADDOW"]
+	var transition2 = GuildColorSwapDict["RED_LIGHT"]
+	var replacement1_key = new_guild.to_upper() + '_SHADDOW'
+	print("[player_edit] replacement1 name: %s" % replacement1_key)
+	var replacement1 = GuildColorSwapDict[replacement1_key]
+	var replacement2_key = new_guild.to_upper() + '_LIGHT'
+	print("[player_edit] replacement2 name: %s" % replacement2_key)
+	var replacement2 = GuildColorSwapDict[replacement2_key]
+	swap_colors(tilemaplayer, target1, target2, transition1, transition2)
+	swap_colors(tilemaplayer, transition1, transition2, replacement1, replacement2)
+	Label_gamedata.text = new_guild + " " + selected_role
 	selected_guild = new_guild
 
 
@@ -79,6 +99,8 @@ func _on_line_edit_name_text_changed(typed_value: String) -> void:
 func _on_button_save_button_up() -> void:
 	print("[player_edit] saving name: %s" % str(display_name))
 	local_gamesave.display_name = display_name
+	local_gamesave.guild = selected_guild
+	local_gamesave.role = selected_role
 	GlobalGameData.write_gamesave(local_gamesave)
 	#get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
 
