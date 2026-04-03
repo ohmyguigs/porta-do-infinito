@@ -2,8 +2,6 @@ class_name GameDataInstance
 extends Node
 
 const SAVE_GAME_PATH := "user://save_game_data.tres"
-const GUILDS: Array[String] = ["red", "blue", "black", "purple", "yellow"]
-const ROLES: Array[String] = ["warrior", "lancer", "monk", "archer"]
 
 var local_game_save: GameData = null
 
