@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bn0w33owglqvf"]
+
+[ext_resource type="Shader" uid="uid://da2h6j5nxxbg8" path="res://shadders/bg_ocean.gdshader" id="1_hk4uv"]
+
+[resource]
+shader = ExtResource("1_hk4uv")
+shader_parameter/WATER_COL = Color(0.2784314, 0.67058825, 0.6627451, 1)
+shader_parameter/WATER2_COL = Color(0.22008738, 0.5436244, 0.5371536, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(5, 5)
+shader_parameter/wave_speed = 1.5
