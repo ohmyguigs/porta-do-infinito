@@ -482,8 +482,8 @@ caret_blink = true
 [node name="ControlSaveButton" type="MarginContainer" parent="AspectRatioContainer" unique_id=2089677586]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/margin_right = 97
-theme_override_constants/margin_bottom = 87
+theme_override_constants/margin_right = 227
+theme_override_constants/margin_bottom = 144
 
 [node name="Control" type="Control" parent="AspectRatioContainer/ControlSaveButton" unique_id=286451582]
 layout_mode = 2

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bggiotj0acsws"]
+
+[ext_resource type="Script" uid="uid://b6m483v840bpy" path="res://scenes/player_instance/player.gd" id="1_veme7"]
+[ext_resource type="Shader" uid="uid://bwi5gh66jfblx" path="res://shadders/color_swap.gdshader" id="2_p4kt1"]
+[ext_resource type="SpriteFrames" uid="uid://bmmqldo4gv2iv" path="res://assets/all_roiles_sprite_frames.tres" id="3_k12f5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_veme7"]
+radius = 33.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqikq"]
+shader = ExtResource("2_p4kt1")
+shader_parameter/target_color1 = Color(0, 0, 0, 1)
+shader_parameter/target_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/tolerance = 0.1
+
+[node name="Player" type="Node2D" unique_id=1996780802]
+script = ExtResource("1_veme7")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1997254404]
+position_smoothing_enabled = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=696710608]
+position = Vector2(0, -33)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=446538311]
+position = Vector2(0, 33)
+shape = SubResource("CircleShape2D_veme7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D" unique_id=437431333]
+
+[node name="AnimatedSprite2D_all_roles" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=550192348]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_cqikq")
+position = Vector2(-1, 0)
+sprite_frames = ExtResource("3_k12f5")
+animation = &"monk_run"
+
+[node name="Label_player_name" type="Label" parent="." unique_id=131075581]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -120.0
+offset_right = 36.0
+offset_bottom = -97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 4
+text = "Player 33"
+horizontal_alignment = 1
+vertical_alignment = 1
