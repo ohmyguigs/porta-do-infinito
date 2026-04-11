@@ -114,7 +114,7 @@ func handle_role_select(new_role: String, skipBypass: bool = false):
 	handle_guild_select(selected_guild, true)
 
 func swap_colors(_tilemaplayer: TileMapLayer, target1: Color, target2: Color, replacement1: Color, replacement2: Color):
-	const tolerance: float = 0.1
+	const tolerance: float = 0.1620
 	_tilemaplayer.material.set_shader_parameter("tolerance", tolerance)
 	_tilemaplayer.material.set_shader_parameter("target_color1", target1)
 	_tilemaplayer.material.set_shader_parameter("target_color2", target2)
