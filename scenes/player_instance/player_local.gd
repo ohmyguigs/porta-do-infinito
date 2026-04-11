@@ -33,12 +33,19 @@ func _ready() -> void:
 	local_gamesave = GlobalGameData.load_gamesave(device_id)
 	print("[main_menu] gamesave: %s" % str(local_gamesave))
 	if local_gamesave != null:
-		device_id = local_gamesave.device_id
+		device_id = local_gamesave.browser_fingerprint
 		display_name = local_gamesave.display_name
 		role = local_gamesave.role
 		guild = local_gamesave.guild
 		Label_display_name.text = local_gamesave.display_name
 		self.global_position = local_gamesave.player_global_position
+	else:
+		local_gamesave = GameData.new()
+		local_gamesave.browser_fingerprint = device_id
+		local_gamesave.device_id = device_id
+		local_gamesave.display_name = display_name
+		local_gamesave.role = role
+		local_gamesave.guild = guild
 	# END GAME DATA LOGIC
 	if guild != "red":
 		swap_colors(
@@ -78,7 +85,10 @@ func swap_colors(animated_sprite: AnimatedSprite2D, target1: Color, target2: Col
 
 func _input(event: InputEvent) -> void:
 	if event.is_action("escape"):
+		if local_gamesave == null:
+			return
 		local_gamesave.player_global_position = self.global_position
+		local_gamesave.player_state = "idle"
 		GlobalGameData.write_gamesave(local_gamesave)
 
 func wait(seconds: float) -> void:
