@@ -49,8 +49,8 @@ func set_offline_label() -> void:
 	LabelStatus.text = LabelStatus.text.replace("ocupado", "offline")
 	if not LabelStatus.text.contains("offline"):
 		LabelStatus.text = "server offline"
-	Button_start.visible = true
-	Button_start.disabled = false
+	Button_start.visible = false
+	Button_start.disabled = true
 
 func set_occupied_label() -> void:
 	SphereStatus.modulate = Consts.COLOR_OFFLINE
@@ -75,12 +75,11 @@ func set_device_id_label() -> void:
 			LabelDeviceId.text = "device_id: %s" % device_id
 
 func _on_remote_status_changed(is_online: bool) -> void:
-	if GlobalGameData.get_remote_session_status() == GlobalGameData.SESSION_STATUS_OCCUPIED:
+	if not is_online:
+		set_offline_label()
 		return
-	if is_online:
-		set_online_label()
-		return
-	set_offline_label()
+	# Avoid showing "online" before device session claim is confirmed.
+	_apply_server_status(GlobalGameData.get_remote_session_status(), GlobalGameData.get_remote_session_status_message())
 
 func _on_remote_session_status_changed(status: String, message: String) -> void:
 	_apply_server_status(status, message)
