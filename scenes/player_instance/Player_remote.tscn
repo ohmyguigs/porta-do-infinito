@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_3sqno"]
 radius = 33.0
 
-[sub_resource type="Shader" id="Shader_ksuug"]
+[sub_resource type="Shader" id="Shader_guild_color_swap"]
 code = "shader_type canvas_item;
 
 uniform vec4 target_color1 : source_color;
@@ -41,7 +41,7 @@ void fragment() {
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8l8gv"]
-shader = SubResource("Shader_ksuug")
+shader = SubResource("Shader_guild_color_swap")
 shader_parameter/target_color1 = Color(0, 0, 0, 1)
 shader_parameter/target_color2 = Color(0, 0, 0, 1)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
