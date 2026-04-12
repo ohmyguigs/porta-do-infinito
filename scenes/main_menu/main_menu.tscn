@@ -181,4 +181,10 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 25
 text = "Entrar"
 
+[node name="Dialog_server_busy" type="AcceptDialog" parent="." unique_id=1287716654]
+unique_name_in_owner = true
+title = "Servidor ocupado"
+dialog_text = "Servidor ocupado: voce provavelmente ja esta conectado em outra aba."
+ok_button_text = "Fechar"
+
 [connection signal="button_up" from="AspectRatioContainer/MarginContainer_buttons/Button_start" to="." method="_on_Button_start_pressed"]

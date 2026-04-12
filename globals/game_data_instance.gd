@@ -7,11 +7,17 @@ const SPACETIMEDB_DATABASE_NAME := "portal-infinito-main-l7sw9"
 const SPACETIMEDB_MODULE_ALIAS := "main"
 const ONLINE_WINDOW_MS := 60_000
 const HEARTBEAT_INTERVAL_SEC := 10.0
+const SESSION_STATUS_ONLINE := "online"
+const SESSION_STATUS_OFFLINE := "offline"
+const SESSION_STATUS_OCCUPIED := "occupied"
 
 var local_game_save: GameData = null
 var _is_remote_connected := false
 var _pending_remote_sync: GameData = null
 var _subscription = null
+var _tab_session_id := ""
+var _session_status := SESSION_STATUS_OFFLINE
+var _session_status_message := ""
 
 var _last_known_online_count: int = 0
 var _players_table_listeners_registered := false
@@ -24,6 +30,7 @@ signal online_players_count_changed(count: int)
 signal remote_player_created(player)
 signal remote_player_updated(previous_player, current_player)
 signal remote_player_removed(player)
+signal remote_session_status_changed(status: String, message: String)
 
 func _ready() -> void:
 	_reload_local_gamesave()
@@ -47,10 +54,21 @@ func load_gamesave(device_id: String) -> GameData:
 	_normalize_identity(local_game_save, device_id)
 	_save_local_gamesave(local_game_save)
 	_ensure_subscription_for_identity(local_game_save)
+	if _is_remote_connected and _session_status != SESSION_STATUS_ONLINE:
+		_claim_device_session()
 	return local_game_save
 
 func is_remote_connected() -> bool:
 	return _is_remote_connected
+
+func get_remote_session_status() -> String:
+	return _session_status
+
+func get_remote_session_status_message() -> String:
+	return _session_status_message
+
+func is_session_occupied() -> bool:
+	return _session_status == SESSION_STATUS_OCCUPIED
 
 func get_local_player_id() -> String:
 	if local_game_save == null:
@@ -99,6 +117,10 @@ func _generate_local_player_id() -> String:
 	var unix_ms := Time.get_unix_time_from_system() * 1000
 	return "local_%s_%s" % [str(unix_ms), str(randi())]
 
+func _generate_tab_session_id() -> String:
+	var unix_ms := Time.get_unix_time_from_system() * 1000
+	return "tab_%s_%s" % [str(unix_ms), str(randi())]
+
 func _connect_remote() -> void:
 	var module_client = _get_module_client()
 	if module_client == null:
@@ -130,6 +152,9 @@ func _get_module_client():
 func _on_remote_connected(_identity: PackedByteArray, _token: String) -> void:
 	_is_remote_connected = true
 	remote_status_changed.emit(true)
+	if _tab_session_id == "":
+		_tab_session_id = _generate_tab_session_id()
+	_claim_device_session()
 	if local_game_save != null:
 		_ensure_subscription_for_identity(local_game_save)
 	_register_players_table_listeners()
@@ -139,11 +164,13 @@ func _on_remote_connected(_identity: PackedByteArray, _token: String) -> void:
 func _on_remote_disconnected() -> void:
 	_is_remote_connected = false
 	remote_status_changed.emit(false)
+	_set_session_status(SESSION_STATUS_OFFLINE, "Servidor offline")
 	_stop_heartbeat()
 
 func _on_remote_connection_error(_code: int, reason: String) -> void:
 	_is_remote_connected = false
 	remote_status_changed.emit(false)
+	_set_session_status(SESSION_STATUS_OFFLINE, reason)
 	_stop_heartbeat()
 	remote_sync_error.emit(reason)
 
@@ -161,6 +188,8 @@ func _ensure_subscription_for_identity(game_data: GameData) -> void:
 	_subscription = module_client.subscribe(PackedStringArray([query_player, query_online]))
 
 func _sync_remote_game_data(game_data: GameData) -> void:
+	if is_session_occupied():
+		return
 	if not _is_remote_connected:
 		_pending_remote_sync = game_data.duplicate(true)
 		return
@@ -272,9 +301,17 @@ func _stop_heartbeat() -> void:
 		_heartbeat_timer.stop()
 
 func _on_heartbeat_timeout() -> void:
+	if not _is_remote_connected:
+		return
+	if is_session_occupied():
+		_claim_device_session()
+		return
+	_refresh_device_session()
 	_send_heartbeat()
 
 func _send_heartbeat() -> void:
+	if is_session_occupied():
+		return
 	if not _is_remote_connected:
 		return
 	if local_game_save == null:
@@ -290,3 +327,103 @@ func _send_heartbeat() -> void:
 
 	local_game_save.last_seen_unix_ms = Time.get_unix_time_from_system() * 1000
 	module_client.reducers.heartbeat_player(local_game_save.player_id, local_game_save.last_seen_unix_ms)
+
+func _claim_device_session() -> void:
+	if local_game_save == null:
+		return
+	if local_game_save.browser_fingerprint == "":
+		return
+	var now_ms := Time.get_unix_time_from_system() * 1000
+	_call_raw_reducer(
+		"claim_device_session",
+		[
+			local_game_save.player_id,
+			local_game_save.browser_fingerprint,
+			_tab_session_id,
+			now_ms
+		],
+		[&'string', &'string', &'string', &'f64'],
+		"claim"
+	)
+
+func _refresh_device_session() -> void:
+	if local_game_save == null:
+		return
+	if local_game_save.browser_fingerprint == "":
+		return
+	var now_ms := Time.get_unix_time_from_system() * 1000
+	_call_raw_reducer(
+		"refresh_device_session",
+		[
+			local_game_save.browser_fingerprint,
+			_tab_session_id,
+			now_ms
+		],
+		[&'string', &'string', &'f64'],
+		"refresh"
+	)
+
+func release_device_session() -> void:
+	if not _is_remote_connected:
+		return
+	if local_game_save == null:
+		return
+	if local_game_save.browser_fingerprint == "":
+		return
+	_call_raw_reducer(
+		"release_device_session",
+		[
+			local_game_save.browser_fingerprint,
+			_tab_session_id
+		],
+		[&'string', &'string'],
+		"release"
+	)
+
+func _call_raw_reducer(reducer_name: String, args: Array, types: Array, operation_name: String) -> void:
+	var module_client = _get_module_client()
+	if module_client == null:
+		return
+
+	var reducer_handle = module_client.call_reducer(reducer_name, args, types)
+	if reducer_handle.error:
+		remote_sync_error.emit("Failed to call %s reducer: %s" % [operation_name, error_string(reducer_handle.error)])
+		return
+
+	var result = await reducer_handle.wait_for_response()
+	if result == null:
+		if operation_name != "release":
+			remote_sync_error.emit("Timeout while waiting %s reducer response" % operation_name)
+		return
+
+	_handle_device_session_response(operation_name, result)
+
+func _handle_device_session_response(operation_name: String, result) -> void:
+	if result == null or result.status == null:
+		return
+
+	if result.status.status_type == UpdateStatusData.StatusType.FAILED:
+		var failure_message := str(result.status.failure_message)
+		if failure_message.contains("DEVICE_OCCUPIED"):
+			_set_session_status(
+				SESSION_STATUS_OCCUPIED,
+				"Servidor ocupado: voce provavelmente ja esta conectado em outra aba."
+			)
+			return
+		if operation_name == "refresh" and failure_message.contains("DEVICE_SESSION_NOT_FOUND"):
+			_claim_device_session()
+			return
+		if operation_name != "release":
+			remote_sync_error.emit("Session %s failed: %s" % [operation_name, failure_message])
+		_set_session_status(SESSION_STATUS_OFFLINE, failure_message)
+		return
+
+	if operation_name != "release":
+		_set_session_status(SESSION_STATUS_ONLINE, "")
+
+func _set_session_status(new_status: String, message: String) -> void:
+	if _session_status == new_status and _session_status_message == message:
+		return
+	_session_status = new_status
+	_session_status_message = message
+	remote_session_status_changed.emit(new_status, message)
