@@ -36,17 +36,29 @@ func _ready() -> void:
 
 func set_online_label() -> void:
 	SphereStatus.modulate = Consts.COLOR_ONLINE
-	LabelStatus.text = "server online"
+	LabelStatus.text = LabelStatus.text.replace("offline", "online")
+	LabelStatus.text = LabelStatus.text.replace("ocupado", "online")
+	if not LabelStatus.text.contains("online"):
+		LabelStatus.text = "server online"
+	Button_start.visible = true
 	Button_start.disabled = false
 
 func set_offline_label() -> void:
 	SphereStatus.modulate = Consts.COLOR_OFFLINE
-	LabelStatus.text = "server offline"
+	LabelStatus.text = LabelStatus.text.replace("online", "offline")
+	LabelStatus.text = LabelStatus.text.replace("ocupado", "offline")
+	if not LabelStatus.text.contains("offline"):
+		LabelStatus.text = "server offline"
+	Button_start.visible = true
 	Button_start.disabled = false
 
 func set_occupied_label() -> void:
 	SphereStatus.modulate = Consts.COLOR_OFFLINE
-	LabelStatus.text = "server ocupado"
+	LabelStatus.text = LabelStatus.text.replace("online", "ocupado")
+	LabelStatus.text = LabelStatus.text.replace("offline", "ocupado")
+	if not LabelStatus.text.contains("ocupado"):
+		LabelStatus.text = "server ocupado"
+	Button_start.visible = false
 	Button_start.disabled = true
 	
 func set_version_label() -> void:
