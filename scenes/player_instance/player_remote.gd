@@ -19,7 +19,7 @@ extends Node2D
 
 var last_seen_unix_ms: float = 0.0
 
-const POSITION_LERP_SPEED := 10.0
+const POSITION_LERP_SPEED := 14.0
 
 var _target_global_position := Vector2.ZERO
 var _has_snapshot := false
