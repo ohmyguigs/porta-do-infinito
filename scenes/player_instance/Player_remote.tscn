@@ -1,14 +1,47 @@
 [gd_scene format=3 uid="uid://ssmcp4wfgprl"]
 
 [ext_resource type="Script" uid="uid://ccgykxmc0uflj" path="res://scenes/player_instance/player_remote.gd" id="1_6afve"]
-[ext_resource type="Shader" uid="uid://bwi5gh66jfblx" path="res://shadders/color_swap.gdshader" id="2_ynylo"]
 [ext_resource type="SpriteFrames" uid="uid://bmmqldo4gv2iv" path="res://assets/all_roles_sprite_frames.tres" id="3_lck26"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3sqno"]
 radius = 33.0
 
+[sub_resource type="Shader" id="Shader_guild_color_swap"]
+code = "shader_type canvas_item;
+
+uniform vec4 target_color1 : source_color;
+uniform vec4 target_color2 : source_color;
+uniform vec4 replace_color1 : source_color;
+uniform vec4 replace_color2 : source_color;
+uniform float tolerance : hint_range(0.0, 1.0) = 0.1;
+
+void fragment() {
+    vec4 current_pixel = texture(TEXTURE, UV);
+    
+    // Calculate distance between current pixel and target color 1
+    vec3 diff1 = abs(current_pixel.rgb - target_color1.rgb);
+    float max_diff1 = max(diff1.r, max(diff1.g, diff1.b));
+
+	// Calculate distance between current pixel and target color 2
+    vec3 diff2 = abs(current_pixel.rgb - target_color2.rgb);
+    float max_diff2 = max(diff2.r, max(diff2.g, diff2.b));
+    
+    // Swap color 1 if within tolerance
+    if (max_diff1 < tolerance) {
+        COLOR.rgb = replace_color1.rgb;
+        COLOR.a = current_pixel.a; // Keep original alpha
+    } else if (max_diff2 < tolerance) {
+		COLOR.rgb = replace_color2.rgb;
+        COLOR.a = current_pixel.a; // Keep original alpha
+	} else {
+        COLOR = current_pixel;
+    }
+	
+}
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8l8gv"]
-shader = ExtResource("2_ynylo")
+shader = SubResource("Shader_guild_color_swap")
 shader_parameter/target_color1 = Color(0, 0, 0, 1)
 shader_parameter/target_color2 = Color(0, 0, 0, 1)
 shader_parameter/replace_color1 = Color(0, 0, 0, 1)
@@ -30,7 +63,7 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_8l8gv")
 position = Vector2(-1, 0)
 sprite_frames = ExtResource("3_lck26")
-animation = &"spawn_01"
+animation = &"warrior_idle"
 
 [node name="Label_player_name" type="Label" parent="." unique_id=672472511]
 unique_name_in_owner = true

@@ -34,6 +34,10 @@ var _pending_state_after_spawn := "idle"
 signal despawn_finished(player_id: String)
 
 func _ready() -> void:
+	# Duplicar material para isolar shader parameters dessa instância
+	# Previene que mudanças de cores desta instância afetem outros PlayerRemote
+	all_roles_animation_sprites.material = all_roles_animation_sprites.material.duplicate()
+	
 	Label_display_name.text = display_name
 	_apply_guild_colors(guild)
 	_play_animation_for_state("idle")
