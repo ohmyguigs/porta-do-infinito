@@ -23,7 +23,9 @@ const POSITION_LERP_SPEED := 14.0
 
 var _target_global_position := Vector2.ZERO
 var _has_snapshot := false
+var _is_spawning := false
 var _is_despawning := false
+var _pending_state_after_spawn := "idle"
 
 # Controls | HUD
 @onready var Label_display_name: Label = %Label_player_name
@@ -60,13 +62,16 @@ func apply_snapshot(player_data) -> void:
 
 	Label_display_name.text = display_name
 	_apply_guild_colors(str(player_data.guild))
-	_play_animation_for_state(str(player_data.player_state))
+	_pending_state_after_spawn = str(player_data.player_state)
+	if not _is_spawning:
+		_play_animation_for_state(_pending_state_after_spawn)
 
 	var next_position := Vector2(float(player_data.pos_x), float(player_data.pos_y))
 	if not _has_snapshot:
 		global_position = next_position
 		_target_global_position = next_position
 		_has_snapshot = true
+		_begin_spawn_animation()
 		return
 
 	if next_position.x > _target_global_position.x:
@@ -86,6 +91,16 @@ func begin_despawn() -> void:
 
 func is_despawning() -> bool:
 	return _is_despawning
+
+func _begin_spawn_animation() -> void:
+	if _is_despawning:
+		return
+	if all_roles_animation_sprites.sprite_frames != null and all_roles_animation_sprites.sprite_frames.has_animation("spawn_01"):
+		_is_spawning = true
+		all_roles_animation_sprites.play("spawn_01")
+		return
+	_is_spawning = false
+	_play_animation_for_state("idle")
 
 func _play_animation_for_state(player_state: String) -> void:
 	var normalized_state := player_state.strip_edges().to_lower()
@@ -119,6 +134,10 @@ func swap_colors(animated_sprite: AnimatedSprite2D, target1: Color, target2: Col
 	animated_sprite.material.set_shader_parameter("replace_color2", replacement2)
 
 func _on_animation_finished() -> void:
+	if _is_spawning and all_roles_animation_sprites.animation == &"spawn_01":
+		_is_spawning = false
+		_play_animation_for_state(_pending_state_after_spawn)
+		return
 	if not _is_despawning:
 		return
 	if all_roles_animation_sprites.animation != &"despawn_01":

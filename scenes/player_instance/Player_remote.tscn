@@ -30,9 +30,7 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_8l8gv")
 position = Vector2(-1, 0)
 sprite_frames = ExtResource("3_lck26")
-animation = &"despawn_01"
-frame = 13
-frame_progress = 1.0
+animation = &"spawn_01"
 
 [node name="Label_player_name" type="Label" parent="." unique_id=672472511]
 unique_name_in_owner = true
