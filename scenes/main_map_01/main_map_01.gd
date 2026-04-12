@@ -8,11 +8,11 @@ func _ready() -> void:
 	if OS.has_feature("web"):
 		var window = JavaScriptBridge.get_interface("window")
 		device_id = window.fpid
-		print("[main_menu] js bridge fpid: %s" % device_id)
+		print("[main_map] js bridge fpid: %s" % device_id)
 	local_gamesave = GlobalGameData.load_gamesave(device_id)
-	print("[main_menu] gamesave: %s" % str(local_gamesave))
+	print("[main_map] gamesave: %s" % str(local_gamesave))
 	if local_gamesave != null:
-		device_id = local_gamesave.device_id
+		device_id = local_gamesave.browser_fingerprint
 
 func _input(event: InputEvent) -> void:
 	if event.is_action("escape"):
