@@ -21,6 +21,10 @@ signal remote_status_changed(is_online: bool)
 signal remote_sync_error(message: String)
 
 signal online_players_count_changed(count: int)
+signal remote_player_created(player)
+signal remote_player_updated(previous_player, current_player)
+signal remote_player_removed(player)
+
 func _ready() -> void:
 	_reload_local_gamesave()
 	if local_game_save == null:
@@ -47,6 +51,30 @@ func load_gamesave(device_id: String) -> GameData:
 
 func is_remote_connected() -> bool:
 	return _is_remote_connected
+
+func get_local_player_id() -> String:
+	if local_game_save == null:
+		return ""
+	return local_game_save.player_id
+
+func is_local_player_id(player_id: String) -> bool:
+	if player_id == "":
+		return false
+	return player_id == get_local_player_id()
+
+func is_last_seen_online(last_seen_unix_ms: float) -> bool:
+	var now_ms := Time.get_unix_time_from_system() * 1000
+	return now_ms - last_seen_unix_ms <= ONLINE_WINDOW_MS
+
+func get_players_snapshot() -> Array:
+	var module_client = _get_module_client()
+	if module_client == null:
+		return []
+
+	var players: Array = []
+	for player in module_client.db.players.iter():
+		players.append(player)
+	return players
 
 func _reload_local_gamesave() -> void:
 	if ResourceLoader.exists(LOCAL_SAVE_GAME_PATH):
@@ -192,15 +220,21 @@ func _register_players_table_listeners() -> void:
 		return
 	
 	# Listeners para mudanças na tabela players
-	module_client.db.players.on_insert(func(_player):
+	module_client.db.players.on_insert(func(player):
+		if not _is_local_player(player):
+			remote_player_created.emit(player)
 		_emit_online_count_changed()
 	)
 	
-	module_client.db.players.on_update(func(_old, _new):
+	module_client.db.players.on_update(func(old_player, new_player):
+		if not _is_local_player(new_player):
+			remote_player_updated.emit(old_player, new_player)
 		_emit_online_count_changed()
 	)
 	
-	module_client.db.players.on_delete(func(_player):
+	module_client.db.players.on_delete(func(player):
+		if not _is_local_player(player):
+			remote_player_removed.emit(player)
 		_emit_online_count_changed()
 	)
 	
@@ -208,6 +242,13 @@ func _register_players_table_listeners() -> void:
 	
 	# Emitir contagem inicial
 	_emit_online_count_changed()
+
+func _is_local_player(player) -> bool:
+	if player == null:
+		return false
+	if local_game_save == null:
+		return false
+	return str(player.player_id) == local_game_save.player_id
 
 func _setup_heartbeat_timer() -> void:
 	if _heartbeat_timer != null:

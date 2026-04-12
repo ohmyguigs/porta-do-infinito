@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://ssmcp4wfgprl"]
+
+[ext_resource type="Script" uid="uid://ccgykxmc0uflj" path="res://scenes/player_instance/player_remote.gd" id="1_6afve"]
+[ext_resource type="Shader" uid="uid://bwi5gh66jfblx" path="res://shadders/color_swap.gdshader" id="2_ynylo"]
+[ext_resource type="SpriteFrames" uid="uid://bmmqldo4gv2iv" path="res://assets/all_roles_sprite_frames.tres" id="3_lck26"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3sqno"]
+radius = 33.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8l8gv"]
+shader = ExtResource("2_ynylo")
+shader_parameter/target_color1 = Color(0, 0, 0, 1)
+shader_parameter/target_color2 = Color(0, 0, 0, 1)
+shader_parameter/replace_color1 = Color(0, 0, 0, 1)
+shader_parameter/replace_color2 = Color(0, 0, 0, 1)
+shader_parameter/tolerance = 0.1
+
+[node name="PlayerRemote" type="Node2D" unique_id=1895570264]
+script = ExtResource("1_6afve")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=321093630]
+position = Vector2(0, -33)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=330864885]
+position = Vector2(0, 33)
+shape = SubResource("CircleShape2D_3sqno")
+
+[node name="AnimatedSprite2D_all_roles" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1621193507]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_8l8gv")
+position = Vector2(-1, 0)
+sprite_frames = ExtResource("3_lck26")
+animation = &"despawn_01"
+frame = 13
+frame_progress = 1.0
+
+[node name="Label_player_name" type="Label" parent="." unique_id=672472511]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -120.0
+offset_right = 36.0
+offset_bottom = -97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 4
+text = "Player 33"
+horizontal_alignment = 1
+vertical_alignment = 1

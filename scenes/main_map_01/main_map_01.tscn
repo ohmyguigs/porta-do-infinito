@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bsqoinb6u56vw" path="res://assets/Terrain/Water/Water.png" id="3_afk18"]
 [ext_resource type="TileSet" uid="uid://dmrw3t4bpm1vp" path="res://assets/tiny_terrain_tileset.tres" id="4_uotpt"]
 [ext_resource type="PackedScene" uid="uid://bggiotj0acsws" path="res://scenes/player_instance/player_local.tscn" id="6_uotpt"]
+[ext_resource type="Script" uid="uid://dr1a6lo6gdvxn" path="res://scenes/main_map_01/player_remote_spawner.gd" id="6_v75my"]
 
 [node name="main_map_01_scene_root" type="Node2D" unique_id=332439814]
 script = ExtResource("1_7yfub")
@@ -63,3 +64,4 @@ tile_set = ExtResource("2_q6hw1")
 position = Vector2(417, 270)
 
 [node name="Player_remote_spawner" type="Node2D" parent="." unique_id=1877416861]
+script = ExtResource("6_v75my")
