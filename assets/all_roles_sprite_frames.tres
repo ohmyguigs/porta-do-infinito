@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://diomd1rkqs3qs" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Archer/Archer_Idle.png" id="1_2y3jf"]
 [ext_resource type="Texture2D" uid="uid://daim6ri1p30ri" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Archer/Archer_Run.png" id="2_6fe6i"]
 [ext_resource type="Texture2D" uid="uid://cavgh7i6etxcs" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Lancer/Lancer_Idle.png" id="3_6prdr"]
+[ext_resource type="Texture2D" uid="uid://8jv45h4yuf1n" path="res://assets/Factions/Knights/Troops/Dead/Dead.png" id="3_ar6ye"]
 [ext_resource type="Texture2D" uid="uid://cyimiscdu1x6k" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Lancer/Lancer_Run.png" id="4_8bjou"]
 [ext_resource type="Texture2D" uid="uid://ctk18so8jgsr8" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Monk/Idle.png" id="5_bvo5f"]
 [ext_resource type="Texture2D" uid="uid://y8kbg2y7n81p" path="res://assets/Tiny Swords (Free Pack)/Units/Red Units/Monk/Run.png" id="6_drihl"]
@@ -51,6 +52,62 @@ region = Rect2(384, 0, 192, 192)
 [sub_resource type="AtlasTexture" id="AtlasTexture_rglir"]
 atlas = ExtResource("2_6fe6i")
 region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2gor"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g81om"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b72xr"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs3ba"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0e2e"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_556lx"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brab6"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ne63h"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxmy4"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbtr8"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck0iw"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fvc2"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(512, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afw1a"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(640, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xy7wg"]
+atlas = ExtResource("3_ar6ye")
+region = Rect2(768, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbjsn"]
 atlas = ExtResource("3_6prdr")
@@ -316,6 +373,53 @@ animations = [{
 }],
 "loop": true,
 "name": &"archer_run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_k2gor")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_g81om")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_b72xr")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_vs3ba")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_y0e2e")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_556lx")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_brab6")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_ne63h")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_xxmy4")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_wbtr8")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_ck0iw")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_3fvc2")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_afw1a")
+}, {
+"duration": 0.6,
+"texture": SubResource("AtlasTexture_xy7wg")
+}],
+"loop": false,
+"name": &"despawn_01",
 "speed": 5.0
 }, {
 "frames": [{
