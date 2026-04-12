@@ -17,8 +17,8 @@ extends Node2D
 ) var guild = "red"
 @export_range(300, 420) var speed: int = 333
 
-const REMOTE_SYNC_INTERVAL_SEC := 0.2
-const MIN_SYNC_DISTANCE := 2.0
+const REMOTE_SYNC_INTERVAL_SEC := 1.0 / 12.0
+const MIN_SYNC_DISTANCE := 0.5
 
 var device_id: String = "default"
 var local_gamesave: GameData = null
